@@ -1,19 +1,14 @@
-import {
-	BrowserRouter as Router,
-	Routes,
-	Route,
-	useParams,
-} from "react-router-dom";
-import Chatroom from "./Chatroom"; // Your Chatroom component
+import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
+import Chatroom from "./Chatroom";
 
 function ChatroomWrapper() {
-	const { room, user } = useParams(); // Reads /:room/:user from URL
+	const { room, user } = useParams();
 	return <Chatroom room={room} user={user} />;
 }
 
 export default function App() {
 	return (
-		<Router>
+		<BrowserRouter>
 			<Routes>
 				<Route
 					path="/chat/:room/:user"
@@ -27,6 +22,6 @@ export default function App() {
 					}
 				/>
 			</Routes>
-		</Router>
+		</BrowserRouter>
 	);
 }
