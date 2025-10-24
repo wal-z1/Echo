@@ -1,14 +1,13 @@
 import Chatroom from "./Chatroom";
+
 function App() {
 	return (
-		<>
-			<div className=" grid grid-rows-2 gap-3 ">
-				<h1 className="text-3xl font-bold underline font-mozilla mx-auto text-[#F5F5F5]">
-					Simple FrontEnd For ECHO chat room
-				</h1>
-				<Chatroom />
-			</div>
-		</>
+		<div className="min-h-screen flex flex-col items-center justify-center px-4 py-8">
+			<h1 className="text-4xl font-bold font-inter text-white mb-8 text-center drop-shadow-lg">
+				Simple Front-End For ECHO Chat Room
+			</h1>
+			<Chatroom />
+		</div>
 	);
 }
 

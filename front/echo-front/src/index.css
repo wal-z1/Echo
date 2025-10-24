@@ -14,15 +14,15 @@ body {
 	width: 100%;
 	height: 100%;
 }
-
 body {
-	background: #808ec2;
 	background: radial-gradient(
-		circle,
-		rgba(128, 142, 194, 1) 0%,
-		rgba(189, 123, 134, 1) 100%
+		circle at top,
+		#3a7bd5 0%,
+		#3a6073 100%
 	);
+	color: #f5f7fa;
 }
+
 
 #root {
 	min-height: 100vh; /* Use min-height to allow content to grow taller */
