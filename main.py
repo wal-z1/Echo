@@ -23,14 +23,31 @@ class ConnectionManager():
         if room not in self.Rooms:
             self.Rooms[room]= [] 
             #access int the rooms this room field and make a list for the websockets
-            self.Rooms[room].append(socket)
+        self.Rooms[room].append(socket)
 
     async def dissconnect(self,socket:WebSocket, room:str):
         self.Rooms[room].remove(socket)
-    async def send(self, message:str,room:str):
+    async def sendbrodcast(self, message:str,room:str):
         for ppl in self.Rooms[room]:
             await ppl.send_text(message)
 
 #define 3    async function eah for the three elementary actions
 
 ConnectionNum1= ConnectionManager() ## create one connection manager
+
+
+#define the websocket by user logic
+
+@app.websocket("ws/{room}/{user}")
+async def websocketendpoint(socket:WebSocket,room:str,user:str):
+    await ConnectionNum1.connect(socket,room) ##adds to the room
+    await ConnectionNum1.sendbrodcast(f'USER {user} has connected to {room}',room) 
+    #broadcasts to all users same info
+    try: 
+        while True:
+            #takes any data sent by any user in tthe room and pass it as a broadcast
+            data = await socket.receive_text()
+            await ConnectionNum1.sendbrodcast(data,room)
+    except WebSocketDisconnect:
+        await ConnectionNum1.dissconnect(socket,room)
+        await  ConnectionNum1.sendbrodcast(f"Client {user} has dissconnected from room {room}",room)
