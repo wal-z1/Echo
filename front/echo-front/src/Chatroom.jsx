@@ -1,4 +1,3 @@
-// FIX 1: Add 'useRef' to the import list
 import { useState, useEffect, useRef } from "react";
 
 export default function Chatroom({ room, user }) {
@@ -9,7 +8,7 @@ export default function Chatroom({ room, user }) {
 
 	useEffect(() => {
 		// Create the connection
-		const ws = new WebSocket(`ws://127.0.0.1:8000/ws/${room}/${user}`);
+		const ws = new WebSocket(`ws://127.0.0.1:1000/ws/${room}/${user}`);
 
 		// Listen for incoming messages
 		ws.onmessage = (event) => {
