@@ -1,44 +1,36 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
-from fastapi.responses import HTMLResponse
-from pathlib import Path
-# important imports will be useful later
+from typing import List, Dict  # for casting
+
 
 app = FastAPI()
 
-# an object to store currently connected users (since no db)
-connected_users = {}
-
 @app.get("/")
-async def main():
-    html = Path("chat.html").read_text()  # open file in that path and read the text
-    # return to the user the page text as an html response
-    return HTMLResponse(html)
+def rootacc():
+    return{"message":"HelloThere"}
+#just a normal hellow world
 
-@app.websocket("/ws/{user}")
-async def websocket_endpoint(websocket: WebSocket, user: str): 
-      # import the websocket created and the user (from URL path)
-      await websocket.accept()  # wait until the browser accepts the websocket request
-      connected_users[user] = websocket  # add the user and their websocket to the dict 
-      
-      try:  # try to keep the connection open
-          while True:
-               # wait for the client to send data in JSON format
-               data = await websocket.receive_json()  
-               
-               to = data["to"]
-               message = data["message"]
+#we need to track the connections in order to do so we use a class
 
-               # check if the receiver exists among connected users
-               if to in connected_users:
-                    # send a JSON object to the receiver's websocket
-                    await connected_users[to].send_json({
-                        "from": user,     # who sent the message
-                        "message": message  # the message itself
-                    })
-               else:
-                    # if receiver not connected, notify the sender
-                    await websocket.send_json({"error": f"{to} is not connected"})
+class ConnectionManager():
+    def __init__(self):
+    #Store active connections. The structure is:
+    # { "room_name": [websocket1, websocket2, ...] }        init to an empty dict
 
-      except WebSocketDisconnect:
-        # if the user disconnects, remove them from the connected list
-        del connected_users[user]
+        self.Rooms: Dict[str,list[WebSocket]] = {}   
+    async def connect(self,socket : WebSocket, room:str):
+        await socket.accept()  ##let browser accept the new websocket connection 
+
+        if room not in self.Rooms:
+            self.Rooms[room]= [] 
+            #access int the rooms this room field and make a list for the websockets
+            self.Rooms[room].append(socket)
+
+    async def dissconnect(self,socket:WebSocket, room:str):
+        self.Rooms[room].remove(socket)
+    async def send(self, message:str,room:str):
+        for ppl in self.Rooms[room]:
+            await ppl.send_text(message)
+
+#define 3    async function eah for the three elementary actions
+
+ConnectionNum1= ConnectionManager() ## create one connection manager
