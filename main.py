@@ -38,7 +38,7 @@ ConnectionNum1= ConnectionManager() ## create one connection manager
 
 #define the websocket by user logic
 
-@app.websocket("ws/{room}/{user}")
+@app.websocket("/ws/{room}/{user}")
 async def websocketendpoint(socket:WebSocket,room:str,user:str):
     await ConnectionNum1.connect(socket,room) ##adds to the room
     await ConnectionNum1.sendbrodcast(f'USER {user} has connected to {room}',room) 
