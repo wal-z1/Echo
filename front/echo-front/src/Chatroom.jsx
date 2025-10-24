@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 
-export default function Chatroom() {
+export default function Chatroom({ room, user }) {
+	const [messages, upMessages] = [];
+	const [CurrentMessage, UpCurrentMessage] = [];
+  
 	return (
 		<div className="w-full max-w-2xl bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-xl p-6 text-white">
 			<div className="flex flex-col h-[500px]">

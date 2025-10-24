@@ -1,14 +1,32 @@
-import Chatroom from "./Chatroom";
+import {
+	BrowserRouter as Router,
+	Routes,
+	Route,
+	useParams,
+} from "react-router-dom";
+import Chatroom from "./Chatroom"; // Your Chatroom component
 
-function App() {
-	return (
-		<div className="min-h-screen flex flex-col items-center justify-center px-4 py-8">
-			<h1 className="text-4xl font-bold font-inter text-white mb-8 text-center drop-shadow-lg">
-				Simple Front-End For ECHO Chat Room
-			</h1>
-			<Chatroom />
-		</div>
-	);
+function ChatroomWrapper() {
+	const { room, user } = useParams(); // Reads /:room/:user from URL
+	return <Chatroom room={room} user={user} />;
 }
 
-export default App;
+export default function App() {
+	return (
+		<Router>
+			<Routes>
+				<Route
+					path="/chat/:room/:user"
+					element={
+						<>
+							<h1 className="text-4xl font-bold font-inter text-white mb-8 text-center drop-shadow-lg">
+								ECHO Chat Room
+							</h1>
+							<ChatroomWrapper />
+						</>
+					}
+				/>
+			</Routes>
+		</Router>
+	);
+}
