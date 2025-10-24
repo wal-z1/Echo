@@ -32,7 +32,7 @@ export default function Chatroom({ room, user }) {
 	};
 
 	return (
-		<div className="w-full max-w-2xl bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-xl p-6 text-white">
+		<div className="mx-auto my-auto w-full max-w-2xl bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-xl p-6 text-white">
 			<div className="flex flex-col h-[500px]">
 				{/*Header */}
 				<div className="pb-4 border-b border-white/20 mb-4 flex items-center justify-between">
