@@ -27,9 +27,4 @@ You can open multiple tabs with different usernames to test it out.
 Example:
 `http://localhost:3000/chat/general/john`
 
-## Notes
-
-* No saved messages (everything resets when the server restarts)
-* No login or authentication
-* Only users in the same room can see each other’s messages
 
