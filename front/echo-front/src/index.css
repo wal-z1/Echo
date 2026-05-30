@@ -15,14 +15,31 @@ body {
 	height: 100%;
 }
 body {
-	background: radial-gradient(
-		circle at top,
-		#3a7bd5 0%,
-		#3a6073 100%
-	);
+	font-family: var(--font-outfit);
+	background:
+		linear-gradient(
+			135deg,
+			rgba(10, 24, 47, 0.9) 0%,
+			rgba(22, 60, 76, 0.9) 45%,
+			rgba(40, 122, 122, 0.9) 100%
+		),
+		radial-gradient(
+			circle at 15% 20%,
+			rgba(0, 255, 204, 0.15),
+			transparent 45%
+		),
+		radial-gradient(
+			circle at 85% 10%,
+			rgba(0, 153, 255, 0.18),
+			transparent 45%
+		),
+		radial-gradient(
+			circle at 70% 80%,
+			rgba(255, 255, 255, 0.08),
+			transparent 45%
+		);
 	color: #f5f7fa;
 }
-
 
 #root {
 	min-height: 100vh; /* Use min-height to allow content to grow taller */

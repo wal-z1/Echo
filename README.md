@@ -1,30 +1,52 @@
 # Echo
 
-simple real-time chat app built with a FastAPI backend and a React frontend.
+**Overview**
+Echo is a real-time chat app with a FastAPI WebSocket backend and a React + Vite frontend. Users join rooms by URL, and messages broadcast to everyone connected to the same room.
 
-**Backend:** FastAPI + WebSockets .............. **Frontend:** React + React Router
-### HOW Backend
+**Architecture**
 
-The FastAPI server manages live chat connections with a lightweight `ConnectionManager` class:
+- **Backend:** FastAPI WebSocket endpoint at `/ws/{room}/{user}`
+- **Frontend:** React Router route `/chat/:room/:user` that opens a WebSocket connection
 
-* Keeps track of users in each chat room
-* When someone connects to `/ws/{room}/{user}`, they’re added to that room
-* Messages are instantly broadcast to everyone in the same room
-* Join and leave notifications are sent automatically
+**Backend behavior**
 
-### HOW Frontend
+- Tracks active sockets per room in a simple connection manager
+- Broadcasts join, message, and leave events to the room
+- Removes broken sockets on error to keep rooms clean
 
-React Router handles navigation and passes the room and username to the chat page:
+**Frontend behavior**
 
-* URL format: `/chat/:room/:user`
-* The Chatroom component connects to the WebSocket and manages messages in real time
+- Reads `room` and `user` from the URL
+- Connects to `ws://127.0.0.1:1000/ws/{room}/{user}`
+- Renders the live message stream and sends user input
 
-## Usage
+**Run locally**
 
-Go to `/chat/{roomName}/{username}` to join a room.
-You can open multiple tabs with different usernames to test it out.
+1. **Backend** (from the repo root)
+   - Create and activate a virtual environment
+     - Windows PowerShell:
+       - `python -m venv .venv`
+       - `.\.venv\Scripts\Activate.ps1`
+     - Windows Command Prompt:
+       - `python -m venv .venv`
+       - `.\.venv\Scripts\activate.bat`
+     - macOS/Linux:
+       - `python3 -m venv .venv`
+       - `source .venv/bin/activate`
+   - Install dependencies from [requirements.txt](requirements.txt)
+     - `pip install -r requirements.txt`
+   - Start the server
+     - `uvicorn main:app --host 127.0.0.1 --port 1000 --reload`
+2. **Frontend** (from [front/echo-front](front/echo-front))
+   - Install dependencies: `npm install`
+   - Start the dev server: `npm run dev`
 
-Example:
-`http://localhost:3000/chat/general/john`
+**Stop the environment**
 
+- Stop servers with `Ctrl+C` in each terminal
+- Deactivate the virtual environment with `deactivate`
 
+**Use the app**
+
+- Open a room in the browser: `http://localhost:5173/chat/general/john`
+- Open another tab with a different name to see real-time updates
